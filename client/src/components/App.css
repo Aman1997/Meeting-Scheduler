@@ -1,0 +1,7 @@
+.App{
+    height: 100vh;
+  }
+  input:focus{
+    border: 1px solid #21e6c1;
+  }
+  
