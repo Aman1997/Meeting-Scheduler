@@ -1,0 +1,112 @@
+.home{
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(77deg, rgb(14, 13, 39) 0%, rgba(95,102,103,1) 100%);
+    color: #fff;
+}
+.profile{
+    position: relative;
+    float: right;
+    margin: 25px 30px ;
+    font-size: 1.6em;
+    color: #fff;
+}
+.fa-user-o{
+    color: #fff;
+}
+.appointment{
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid white;
+}
+.appointment label{
+    display: inline;
+}
+.appointment input{
+    display: inline;
+    width: 20%;
+    height: 30px;
+    margin-top: 8%;
+}
+input[id="from"]{
+    width: 50px;
+    margin-right: 0;
+    margin-left: 5px;
+}
+
+input[id="to"]{
+    width: 50px;
+    margin-left: 5px;
+}
+[type="date"] {
+    background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+  }
+  [type="date"]::-webkit-inner-spin-button {
+    display: none;
+  }
+  [type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+  }
+
+.bookAppointment{
+    float:right;
+    height: 30px;
+    padding: 8px;
+    margin-top: 8%;
+    margin-right: 20px;
+    color: #fff;
+    border-radius: 10px;
+    background: #21e6c1;
+    border: 0;
+    font-weight: 600;
+    box-shadow:  0 10px 8px -6px rgba(54, 255, 218, 0.3);
+    cursor: pointer;
+}  
+.bookAppointment:focus{
+    outline: none;
+}
+.bookAppointment:hover{
+    box-shadow:  0 8px 18px  rgba(54, 255, 218, 0.3);
+}
+
+.home .appointment .booked-meetings{
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    overflow: auto;
+    max-height: 300px;
+}
+
+.home .appointment .booked-meetings table{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.home .appointment .booked-meetings table td, .home .appointment .booked-meetings table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+  
+.home .appointment .booked-meetings table tr:nth-child(even){
+    background-color: rgb(108, 110, 110);
+}
+  
+.home .appointment .booked-meetings table tr:hover {
+    background-color: rgb(182, 180, 180);
+}
+  
+.home .appointment .booked-meetings table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: white;
+}
+
+.home .fa:hover{
+    cursor: pointer;
+}

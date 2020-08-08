@@ -33,10 +33,20 @@ class Signin extends Component{
             email : this.state.email,
             password: this.state.password
         }   
-    
         axios.post('/api/user/register', data)
-            .then(response =>  console.log(response.data))
-            .catch(error => alert(error.message))  
+            .then(response =>  {
+                if(response.data.success){
+                    let userData = {
+                        name: response.data.name,
+                        email: response.data.email
+                    }
+                    this.props.history.replace({ pathname: '/home', state: {userData: userData}})
+                }
+                else{
+                    console.log(response.data.err.message)
+                }
+            })
+            .catch(error => console.error(error.message))  
     }
     render(){
         return(

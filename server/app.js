@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser')
 const config = require('./config/key')
 
 const { User } = require('./model/user')
+const { Meetings } = require('./model/meetingSchedule')
 const user = require('./model/user')
 
 const { auth } = require('./middleware/auth')
@@ -25,7 +26,7 @@ app.post('/api/user/register', (req, res) =>{
   const user = new User(req.body)
   user.save((err, userData) =>{
     if (err) return res.json({ success: false, err}) 
-    res.status(200).json({ success: true, userData: userData})
+    res.status(200).json({ success: true, email: userData.email, name: userData.name})
   })
 })
 
@@ -56,20 +57,37 @@ app.post('/api/user/login', (req, res) =>{
         if (err) return res.status(400).send(err)
         res.cookie('x_auth', user.token)
           .status(200)
-          .json({ loginSuccess: true})
+          .json({ loginSuccess: true, email: user.email, name: user.name})
       })  
     })
   })
 })
 
 app.get('/api/user/logout', auth, (req,res) =>{
-  User.findOneAndUpdate({_id: req.user._id}, {token : ""}, (err, doc) =>{
+  User.findOneAndUpdate({_id: req.user._id}, {token : ""}, (err) =>{
     if(err) return res.json(
         { logoutSuccess: False, err }
       )
     return res.status(200).send({ logoutSuccess: true})  
   }
 )
+})
+
+app.post('/api/user/bookMeeting', auth, (req, res) =>{
+  const meetings = new Meetings(req.body)
+  meetings.save((err, meetingsData) =>{
+    if(err) { return res.json({success: false, err})}
+    res.status(200).json({ success: true, meetingsData: meetingsData})
+  })
+})
+
+app.get('/api/user/getAllMeetings', auth, (req,res) =>{
+  Meetings.find({email : req.user.email}, (err,doc) =>{
+    if(doc.length == 0) { return res.json(
+            { success: false, err }
+          )}
+    return res.status(200).send({ Success: true, meetingsData: doc})       
+  })
 })
 
 const port = process.env.PORT || 5000

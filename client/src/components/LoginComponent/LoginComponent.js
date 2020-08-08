@@ -31,8 +31,17 @@ class Login extends Component{
             password : this.state.password 
         }
     
-        axios.post('/api/user/login', this.state)
-            .then(response => console.log(response.data))
+        axios.post('/api/user/login', data)
+            .then(response => {
+                if(response.data.loginSuccess) { 
+                    let userData = {
+                        name: response.data.name,
+                        email: response.data.email
+                    }
+                    this.props.history.replace({ pathname: '/home', state: {userData: userData}})
+                }    
+                else{ alert(response.data.message)}
+            })
             .catch(error => alert(error.message))
     }
 
