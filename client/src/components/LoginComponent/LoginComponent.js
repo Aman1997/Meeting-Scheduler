@@ -7,7 +7,11 @@ class Login extends Component{
         super(props);
         this.state = {
             email : '',
-            password: ''
+            password: '',
+            errors : {
+                err_email: '',
+                err_password: ''
+            }
         };
         
         this.handleChange = this.handleChange.bind(this);
@@ -15,13 +19,28 @@ class Login extends Component{
     }
 
     handleChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-    
+        const { name, value} = event.target
+        let error = this.state.errors
+        let validEmailRegex = /\S+@\S+\.\S+/
+
+        switch(name){
+            case 'email': error.err_email = validEmailRegex.test(value) ? '' : 'Email is not valid!'
+                        break
+            case 'password': error.err_password = value.length < 8 ? 'Password must be 8 characters long!'  : ''
+                        break
+            default : break                         
+        }
+
         this.setState({
-          [name]: value
+          [name]: value,
+          errors : error 
         });
+    }
+
+    validatForm = (errors) =>{
+        let valid = true
+        Object.values(errors).forEach( (val) => val.length > 0 && (valid = false))
+        return valid
     }
 
     handleSubmit(event){
@@ -30,8 +49,11 @@ class Login extends Component{
             email : this.state.email,
             password : this.state.password 
         }
-    
-        axios.post('/api/user/login', data)
+        if(!this.validatForm(this.state.errors)){
+            alert('User cannot login!!')
+        }
+        else{
+            axios.post('/api/user/login', data)
             .then(response => {
                 if(response.data.loginSuccess) { 
                     let userData = {
@@ -43,6 +65,8 @@ class Login extends Component{
                 else{ alert(response.data.message)}
             })
             .catch(error => alert(error.message))
+        }
+
     }
 
     render(){
@@ -67,8 +91,10 @@ class Login extends Component{
                                 <input type='password' id="password" name="password" placeholder="Password"
                                 value={this.state.password}
                                 onChange={this.handleChange}/>
-                                <button type="submit" className='loginButton'>Login</button>
+                                <button type="submit" className='loginButton' disabled={!this.state.email || !this.state.password}>Login</button>
                             </form>
+                            <span className='error-message'>{this.state.errors.err_email}</span>
+                            <span className='error-message'>{this.state.errors.err_password}</span>
                         </div>
                     </div>
                 </div>

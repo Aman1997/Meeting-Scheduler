@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './HomeComponent.css';
-import { withRouter, browserHistory } from 'react-router';
+import { withRouter } from 'react-router';
 import axios from 'axios';
 
 
